@@ -35,3 +35,9 @@ Make symlinks, add to environment variables for compiler, or copy required files
 Given _**url**_ for TCP server address likes `http://foo.bar:1234` or `127.0.0.1:4321`.
 
 Given _**file_path**_ to save output file likes `result.dat` or `/path/to/file.dat`.
+
+# Others #
+TCP socket relay site: https://ppng.io
+```
+> cat binfile | curl -T - https://ppng.io/whatyouwant
+```
