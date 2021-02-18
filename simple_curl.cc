@@ -44,7 +44,7 @@ size_t fn_write_queue(void* ptr, size_t size, size_t nmemb, void* buff_ptr) {
         buff->push_back(*((char*)ptr+len));
     }
     printf("buff:%lu ", buff->size());
-    // check size of chunk is large than seq(32bits)+size of payload(16bits) + payload
+    // check size of buffer is large than seq(32bits) + chunk size(16bits) + chunk data
     while (buff->size() > 6) {
         unsigned short len = ((unsigned short)(*buff)[4] << 8) + 
                              (unsigned char)(*buff)[5];
@@ -90,8 +90,9 @@ size_t fn_write_buffer(void* ptr, size_t size, size_t nmemb, void* buff_ptr) {
     memcpy(dst, ptr, pack_len);
     buff->size += pack_len;
 
-    // check buffer size is large than seq(32bits)+size of payload(16bits) + payload
+    // check buffer size is large than seq(32bits) + chunk size(16bits) + chunk data
     while (buff->size > buff->pos + 6) {
+        // both chunk length and sequence are big-endian
         unsigned short len = ((unsigned short)buff->memory[buff->pos + 4] << 8) + 
                              (unsigned char)buff->memory[buff->pos + 5];
         // check if whole payload has been filled
